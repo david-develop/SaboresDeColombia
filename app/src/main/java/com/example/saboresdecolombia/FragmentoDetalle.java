@@ -1,7 +1,9 @@
 package com.example.saboresdecolombia;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -30,6 +32,9 @@ public class FragmentoDetalle extends Fragment {
     private boolean videoCargado;
     private boolean webCargada;
 
+    // Los favoritos se guardan en el dispositivo (clave: nombre del plato)
+    private static final String PREFS_FAVORITOS = "favoritos";
+
     // Encabezado y opciones
     private TextView txtNombrePlato;
     private ImageView imgFavorito;
@@ -41,6 +46,8 @@ public class FragmentoDetalle extends Fragment {
     // Perfil
     private ImageView imgPlato;
     private TextView txtRegionPlato, txtIngredientes, txtHistoria;
+    private ImageView imgAvatar;
+    private TextView txtNombreCocinero, txtRolCocinero, txtEstudios, txtExperiencia;
 
     // Fotos
     private ImageView imgFotoGrande;
@@ -53,11 +60,10 @@ public class FragmentoDetalle extends Fragment {
 
     // Web
     private EditText etUrl;
-    private Button btnAbrirEnlace;
     private WebView wvReceta;
 
     // Botones
-    private Button btnFavorito, btnCompartir, btnVerReceta;
+    private Button btnFavorito;
 
     public FragmentoDetalle() {
         super(R.layout.fragment_detalle);
@@ -82,6 +88,11 @@ public class FragmentoDetalle extends Fragment {
         txtRegionPlato = view.findViewById(R.id.txtRegionPlato);
         txtIngredientes = view.findViewById(R.id.txtIngredientes);
         txtHistoria = view.findViewById(R.id.txtHistoria);
+        imgAvatar = view.findViewById(R.id.imgAvatar);
+        txtNombreCocinero = view.findViewById(R.id.txtNombreCocinero);
+        txtRolCocinero = view.findViewById(R.id.txtRolCocinero);
+        txtEstudios = view.findViewById(R.id.txtEstudios);
+        txtExperiencia = view.findViewById(R.id.txtExperiencia);
 
         imgFotoGrande = view.findViewById(R.id.imgFotoGrande);
         txtDescripcionFoto = view.findViewById(R.id.txtDescripcionFoto);
@@ -98,14 +109,14 @@ public class FragmentoDetalle extends Fragment {
         });
 
         etUrl = view.findViewById(R.id.etUrl);
-        btnAbrirEnlace = view.findViewById(R.id.btnAbrirEnlace);
+        Button btnAbrirEnlace = view.findViewById(R.id.btnAbrirEnlace);
         wvReceta = view.findViewById(R.id.wvReceta);
         wvReceta.getSettings().setJavaScriptEnabled(true);
         wvReceta.setWebViewClient(new WebViewClient()); // los enlaces se abren dentro del WebView
 
         btnFavorito = view.findViewById(R.id.btnFavorito);
-        btnCompartir = view.findViewById(R.id.btnCompartir);
-        btnVerReceta = view.findViewById(R.id.btnVerReceta);
+        Button btnCompartir = view.findViewById(R.id.btnCompartir);
+        Button btnVerReceta = view.findViewById(R.id.btnVerReceta);
 
         // Eventos
         grupoOpciones.addOnButtonCheckedListener((grupo, checkedId, isChecked) -> {
@@ -142,6 +153,7 @@ public class FragmentoDetalle extends Fragment {
         if (getView() == null) {
             return; // la vista aún no existe; se aplica en onViewCreated
         }
+        plato.setFavorito(preferenciasFavoritos().getBoolean(plato.getNombre(), false));
         videoCargado = false;
         webCargada = false;
         vvPlato.stopPlayback();
@@ -179,6 +191,13 @@ public class FragmentoDetalle extends Fragment {
         txtRegionPlato.setText(getString(R.string.region_formato, platoSeleccionado.getOrigen()));
         txtIngredientes.setText(platoSeleccionado.getIngredientes());
         txtHistoria.setText(platoSeleccionado.getHistoria());
+
+        Cocinero cocinero = platoSeleccionado.getCocinero();
+        imgAvatar.setImageResource(cocinero.getAvatarResId());
+        txtNombreCocinero.setText(cocinero.getNombre());
+        txtRolCocinero.setText(cocinero.getRol());
+        txtEstudios.setText(cocinero.getEstudios());
+        txtExperiencia.setText(cocinero.getExperiencia());
     }
 
     // Sección Fotos: crea las miniaturas y muestra la primera foto
@@ -202,10 +221,19 @@ public class FragmentoDetalle extends Fragment {
         txtDescripcionFoto.setText(foto.getDescripcion());
     }
 
-    // Sección Video
+    // Sección Video.
+    // getIdentifier se usa a propósito: el video local (res/raw/<plato>.mp4) es opcional y no se
+    // puede referenciar como R.raw.<plato> si el archivo todavía no existe.
+    @SuppressLint("DiscouragedApi")
     private void reproducirVideo() {
         if (!videoCargado) {
-            vvPlato.setVideoURI(Uri.parse(platoSeleccionado.getUrlVideo()));
+            // Si existe el video local res/raw/<nombre_del_plato>.mp4 se usa; si no, el video genérico en línea
+            String paquete = requireContext().getPackageName();
+            int rawId = getResources().getIdentifier(platoSeleccionado.getNombreRecurso(), "raw", paquete);
+            Uri uri = rawId != 0
+                    ? Uri.parse("android.resource://" + paquete + "/" + rawId)
+                    : Uri.parse(platoSeleccionado.getUrlVideo());
+            vvPlato.setVideoURI(uri);
             videoCargado = true;
         }
     }
@@ -227,10 +255,17 @@ public class FragmentoDetalle extends Fragment {
     // Sección Botones: alterna favorito
     private void marcarFavorito() {
         platoSeleccionado.marcarFavorito();
+        preferenciasFavoritos().edit()
+                .putBoolean(platoSeleccionado.getNombre(), platoSeleccionado.esFavorito())
+                .apply();
         actualizarFavorito();
         Toast.makeText(requireContext(),
                 platoSeleccionado.esFavorito() ? R.string.favorito_agregado : R.string.favorito_quitado,
                 Toast.LENGTH_SHORT).show();
+    }
+
+    private SharedPreferences preferenciasFavoritos() {
+        return requireContext().getSharedPreferences(PREFS_FAVORITOS, Context.MODE_PRIVATE);
     }
 
     private void actualizarFavorito() {

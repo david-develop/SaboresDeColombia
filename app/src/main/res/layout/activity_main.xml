@@ -24,33 +24,38 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
+    <!-- El logo ocupa el espacio libre entre el borde superior y el botón y se escala para caber
+         (fitCenter), así se adapta a cualquier tamaño de pantalla y orientación -->
     <ImageView
         android:id="@+id/imgLogo"
-        android:layout_width="388dp"
-        android:layout_height="220dp"
-        android:adjustViewBounds="true"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
         android:contentDescription="@string/desc_logo"
+        android:scaleType="fitCenter"
         android:src="@drawable/logo_sabores"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnComenzar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.36" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnComenzar"
-        android:layout_width="214dp"
-        android:layout_height="62dp"
-        android:layout_marginBottom="88dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
         android:backgroundTint="@color/amarillo_colombia"
+        android:minWidth="200dp"
+        android:minHeight="56dp"
         android:paddingHorizontal="32dp"
         android:text="@string/comenzar"
         android:textColor="@color/azul_colombia"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

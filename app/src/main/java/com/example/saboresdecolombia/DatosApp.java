@@ -16,6 +16,37 @@ public class DatosApp {
 
     private static List<Region> regiones;
 
+    // Personas ficticias (uso académico) que representan la cocina de cada región
+    private static Cocinero cocineroDe(String region) {
+        switch (region) {
+            case "Caribe":
+                return new Cocinero("Yolanda Barrios Pérez", "Cocinera tradicional · Cartagena",
+                        "Tecnóloga en Gastronomía. Curso de cocina de pescados y mariscos del Caribe.",
+                        "18 años en cocinas de la Ciudad Amurallada y en festivales gastronómicos de la costa.",
+                        R.drawable.ic_avatar_caribe);
+            case "Pacífica":
+                return new Cocinero("Maritza Angulo Caicedo", "Cocinera tradicional · Buenaventura",
+                        "Formación en cocina del Pacífico en talleres comunitarios. Curso de manipulación de alimentos.",
+                        "22 años preparando encocados y arroces en su restaurante familiar y en encuentros de saberes afrocolombianos.",
+                        R.drawable.ic_avatar_pacifica);
+            case "Orinoquía":
+                return new Cocinero("Wilmer Torres Rincón", "Cocinero llanero · Villavicencio",
+                        "Técnico en Cocina Colombiana. Diplomado en cocina de fogón y carnes a la brasa.",
+                        "20 años como asador en fincas y festivales de la música llanera. Instructor de cocina de campo.",
+                        R.drawable.ic_avatar_orinoquia);
+            case "Amazonía":
+                return new Cocinero("Luz Marina Cabrera", "Cocinera tradicional · Leticia",
+                        "Curso de aprovechamiento de productos del río y de la yuca. Taller de cocina sostenible.",
+                        "15 años cocinando con productos de la chagra y del río. Participante en ferias gastronómicas amazónicas.",
+                        R.drawable.ic_avatar_amazonia);
+            default:
+                return new Cocinero("Rosa Elvira Cárdenas", "Cocinera tradicional · Bogotá",
+                        "Técnica en Cocina Colombiana. Diplomado en patrimonio culinario de la región andina.",
+                        "25 años preparando platos andinos en su restaurante familiar de La Candelaria. Instructora de talleres de cocina tradicional.",
+                        R.drawable.ic_avatar_andina);
+        }
+    }
+
     public static synchronized List<Region> obtenerRegiones() {
         if (regiones == null) {
             regiones = new ArrayList<>();
@@ -109,6 +140,6 @@ public class DatosApp {
         // El enlace puede ser una URL completa o solo el nombre de una página de Wikipedia
         String urlReceta = enlace.startsWith("http") ? enlace : WIKI + enlace;
         return new Plato(nombre, origen, ingredientes, historia,
-                VIDEO_EJEMPLO, urlReceta, galeria.get(0).getImagenResId(), galeria);
+                VIDEO_EJEMPLO, urlReceta, galeria.get(0).getImagenResId(), galeria, cocineroDe(origen));
     }
 }
