@@ -37,8 +37,7 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:contentDescription="@string/desc_avatar"
-                android:src="@drawable/ic_avatar"
-                app:tint="@color/azul_colombia" />
+                android:src="@drawable/ic_avatar_andina" />
 
             <LinearLayout
                 android:layout_width="0dp"

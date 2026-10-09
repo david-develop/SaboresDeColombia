@@ -1,18 +1,59 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
+# ---------------------------------------------------------------
+# Compilacion y Gradle
+# ---------------------------------------------------------------
+build/
+.gradle/
+.kotlin/
+captures/
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+out/
+.cxx/
+.externalNativeBuild/
 
-# Archivos de trabajo (fotos originales y videos pendientes)
-/recursos_pendientes/
+# ---------------------------------------------------------------
+# Archivos locales de cada persona
+# ---------------------------------------------------------------
+# Contiene la ruta del SDK de cada maquina
+local.properties
+# Llaves de firma (no versionar las de publicacion)
+*.keystore
+*.jks
+
+# ---------------------------------------------------------------
+# Android Studio / IntelliJ
+# ---------------------------------------------------------------
+*.iml
+.idea/
+.navigation/
+*.hprof
+
+# ---------------------------------------------------------------
+# Sistema operativo y editores
+# ---------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.vscode/
+
+# ---------------------------------------------------------------
+# Carpetas de trabajo que NO se versionan
+# ---------------------------------------------------------------
+# Documentos de entrega
+docs/
+# Fotos originales y videos sin procesar
+recursos_pendientes/
+
+# ---------------------------------------------------------------
+# Recursos de la app (SI se versionan)
+# ---------------------------------------------------------------
+# NO ignorar app/src/main/res/raw/: ahi viven los videos de los platos.
+# Cada video debe pesar poco (comprimirlo antes de agregarlo) para no
+# inflar el repositorio ni el APK.

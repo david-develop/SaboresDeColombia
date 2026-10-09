@@ -46,6 +46,7 @@ public class FragmentoDetalle extends Fragment {
     // Perfil
     private ImageView imgPlato;
     private TextView txtRegionPlato, txtIngredientes, txtHistoria;
+    private ImageView imgAvatar;
     private TextView txtNombreCocinero, txtRolCocinero, txtEstudios, txtExperiencia;
 
     // Fotos
@@ -87,6 +88,7 @@ public class FragmentoDetalle extends Fragment {
         txtRegionPlato = view.findViewById(R.id.txtRegionPlato);
         txtIngredientes = view.findViewById(R.id.txtIngredientes);
         txtHistoria = view.findViewById(R.id.txtHistoria);
+        imgAvatar = view.findViewById(R.id.imgAvatar);
         txtNombreCocinero = view.findViewById(R.id.txtNombreCocinero);
         txtRolCocinero = view.findViewById(R.id.txtRolCocinero);
         txtEstudios = view.findViewById(R.id.txtEstudios);
@@ -191,6 +193,7 @@ public class FragmentoDetalle extends Fragment {
         txtHistoria.setText(platoSeleccionado.getHistoria());
 
         Cocinero cocinero = platoSeleccionado.getCocinero();
+        imgAvatar.setImageResource(cocinero.getAvatarResId());
         txtNombreCocinero.setText(cocinero.getNombre());
         txtRolCocinero.setText(cocinero.getRol());
         txtEstudios.setText(cocinero.getEstudios());

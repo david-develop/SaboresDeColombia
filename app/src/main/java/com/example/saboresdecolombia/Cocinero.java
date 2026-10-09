@@ -6,12 +6,14 @@ public class Cocinero {
     private final String rol;
     private final String estudios;
     private final String experiencia;
+    private final int avatarResId;
 
-    public Cocinero(String nombre, String rol, String estudios, String experiencia) {
+    public Cocinero(String nombre, String rol, String estudios, String experiencia, int avatarResId) {
         this.nombre = nombre;
         this.rol = rol;
         this.estudios = estudios;
         this.experiencia = experiencia;
+        this.avatarResId = avatarResId;
     }
 
     public String getNombre() {
@@ -28,5 +30,9 @@ public class Cocinero {
 
     public String getExperiencia() {
         return experiencia;
+    }
+
+    public int getAvatarResId() {
+        return avatarResId;
     }
 }
