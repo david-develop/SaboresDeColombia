@@ -19,6 +19,12 @@
     <string name="opcion_botones">Botones</string>
 
     <!-- Perfil -->
+    <string name="perfil_persona_titulo">Perfil de la persona</string>
+    <string name="perfil_persona_nota">Perfil ficticio con fines académicos</string>
+    <string name="estudios">Estudios</string>
+    <string name="experiencia">Experiencia</string>
+    <string name="desc_avatar">Avatar de la persona</string>
+    <string name="plato_titulo">El plato</string>
     <string name="region_formato">Región %1$s</string>
     <string name="ingredientes_principales">Ingredientes principales</string>
     <string name="historia">Historia</string>
